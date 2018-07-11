@@ -1,0 +1,21 @@
+<form (ngSubmit)="onSubmit()" #postForm="ngForm">
+    
+    <div>
+        <label  for="text">Text:</label>
+        <div>          
+            <input type="text" id="text" placeholder="Text" name="text" [(ngModel)] = "text"/>
+        </div>
+    </div>
+    <div>
+        <label  for="files">Files:</label>
+        <div>          
+            <input type="file" id="files" placeholder="Files" name="files" multiple
+                   (change) = "setFiles($event.target.files)"/>
+        </div>
+    </div>
+    <div >        
+        <div >
+            <button type="submit" id="submit">Submit</button>
+        </div>
+    </div>
+</form>

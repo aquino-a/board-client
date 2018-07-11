@@ -1,0 +1,18 @@
+.buttons {
+    
+    
+}
+.page-button {
+    
+    display:  inline-block;
+    height: 2%;
+    width:  4%;
+    padding:2em;
+    background-color: wheat;
+    border: gray thin solid;
+}
+
+.page-button:hover {
+     background-color: gray;
+     color:white;
+}
