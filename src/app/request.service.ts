@@ -3,7 +3,6 @@ import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {RootObject,Content,Member} from 'namespace';
-import {AuthenticationService} from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class RequestService {
     domainPath = 'http://192.168.1.62:8084';
     
     
-    constructor(private http: HttpClient, private authenticationService: AuthenticationService) { }
+    constructor(private http: HttpClient) { }
     
     
     private getRequestNoToken<T>(path: string, params: {}): Observable<T> {
@@ -21,35 +20,35 @@ export class RequestService {
             .pipe(tap(_ => console.log(`Request at ${path}`)));
     }
     
-    private getRequestToken<T>(path: string, params: {headers?: HttpHeaders, params?: HttpParams}): Observable<T> {
+    private getRequestToken<T>(path: string, token:string, params: {headers?: HttpHeaders, params?: HttpParams}): Observable<T> {
         if(params.headers) {
-            params.headers = params.headers.set('Authorization','Bearer ' + this.authenticationService.getToken());
+            params.headers = params.headers.set('Authorization','Bearer ' + token);
         } else {
-            params.headers = new HttpHeaders().set('Authorization','Bearer ' + this.authenticationService.getToken());
+            params.headers = new HttpHeaders().set('Authorization','Bearer ' + token);
         }
         return this.http.get<T>(this.domainPath+path, params)
-            .pipe(tap(_ => console.log(`Request at ${path} with token ${this.authenticationService.getToken()}`)));
+            .pipe(tap(_ => console.log(`Request at ${path} with token ${token}`)));
     }
     
-    private postRequestToken(path: string,formData: FormData, params: {headers?: HttpHeaders, params?: HttpParams}) {
+    private postRequestToken(path: string, token: string, formData: FormData, params: {headers?: HttpHeaders, params?: HttpParams}) {
         if(params.headers) {
-            params.headers = params.headers.set('Authorization','Bearer ' + this.authenticationService.getToken());
+            params.headers = params.headers.set('Authorization','Bearer ' + token);
         } else {
-            params.headers = new HttpHeaders().set('Authorization','Bearer ' + this.authenticationService.getToken());
+            params.headers = new HttpHeaders().set('Authorization','Bearer ' + token);
         }
         this.http.post(this.domainPath+path, formData, params)
-            .pipe(tap(_ => console.log(`Posting to ${path} with token ${this.authenticationService.getToken()}`)))
+            .pipe(tap(_ => console.log(`Posting to ${path} with token ${token}`)))
             .subscribe((data) => {console.log(data)});
     }
     
-    public newPost(text: string, files?: File[]) {
+    public newPost(text: string, token: string, files?: File[]) {
         let formData = new FormData();
         for(let file of files) {
             formData.append('files', file, file.name);
         }
         formData.set('text',text);
         
-        this.postRequestToken('/posts/new', formData, {});
+        this.postRequestToken('/posts/new',token, formData, {});
     }
     
     public getPosts(page: number, size: number): Observable<RootObject> {
@@ -66,5 +65,13 @@ export class RequestService {
         options.params = params;
         return this.getRequestNoToken<RootObject>("/posts", options);
         
+    }
+    
+    public getMember(token: string): Observable<Member> {
+        return this.getRequestToken<Member>('/posts/me', token,{});
+    }
+    
+    public validToken(token: string): Observable<Response> {
+        return this.getRequestToken<Response>('/posts/me', token, {});
     }
 }

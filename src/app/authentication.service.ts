@@ -4,6 +4,8 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { Member } from 'namespace';
+import { RequestService } from './request.service';
 
 const PATH = 'http://192.168.1.62:8084';
 const AUTHPATH = PATH + '/oauth/authorize';
@@ -16,22 +18,26 @@ const AUTHORIZE = AUTHPATH +'?redirect_uri=http://localhost:4200/login&response_
 })
 export class AuthenticationService {
 
-    authorized: boolean = false;
-    token = '';
+    authenticated: boolean = false;
+    member:Member;
+    private token = '';
     
 
     
-    constructor(private http: HttpClient) {}
+    constructor(
+        private http: HttpClient,
+        private requestService: RequestService 
+        ) {}
 
     authorize() {
-        let options = {
-            params: new HttpParams().set('','')
-
-        };
-        options.params.set('response_type','code');
-        options.params.set('client_id','pizza');
-        options.params.set('redirect_uri','localhost:4200/login');
-        let options1 = 'left=100,top=10,width=400,height=500';
+//        let options = {
+//            params: new HttpParams().set('','')
+//
+//        };
+//        options.params.set('response_type','code');
+//        options.params.set('client_id','pizza');
+//        options.params.set('redirect_uri','localhost:4200/login');
+//        let options1 = 'left=100,top=10,width=400,height=500';
         
         let newWindow = window.open(AUTHORIZE, '_self', 'location=no,height=300,width=520,scrollbars=no,status=no');
         console.log(newWindow.location.href);
@@ -43,6 +49,7 @@ export class AuthenticationService {
     
     setToken(token: string) {
         this.token = token;
+        this.checkToken();
     }
     
     fetchToken(code: string) {
@@ -55,19 +62,38 @@ export class AuthenticationService {
             .set('code',code);
     }
     
-    checkToken() : boolean {
-        if (this.token.length < 20) {
-            return false;
-        }
-        
-        //TODO do this
-        
-        
+//    fetchMember() : boolean {
+//        this.requestService.getMember(this.token)
+//            .subscribe(member => this.member = member);
+//        return this.member != null;
+//    }
+    
+    private checkToken(): void {
+        this.requestService.getMember(this.token)
+            .pipe(tap(data => console.log(data)))
+            .subscribe(member => {
+                if(member && member.username) {
+                    this.authenticated = true;
+                    this.member = member;
+                } else {
+                    this.authenticated = false;
+                    this.token = '';
+                }
+        });
     }
     
     getToken(): string {
         return this.token;
     }
+    
+    logOut() {
+        this.token = '';
+        this.authenticated = false;
+    }
+    
+//    isAuthenticated() : boolean {
+//        return this.authenticated;
+//    }
     
     
 

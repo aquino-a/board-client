@@ -15,10 +15,5 @@ export class AppComponent {
     
     }
 
-    testAuthorization() {
-        this.auth.authorize();
-    }
-
-
     title = 'Alex';
 }

@@ -1,13 +1,36 @@
-.buttons {
-    
+.post li {
+    width:100%;
+    overflow: hidden;
+    border: #0077b3 dotted thin;
+}
+.posts ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color:#E8E8E8;
+}
+
+.photo img {
+    max-height: 6em;
+    margin: .5em 2em;
     
 }
+.photo {
+    margin-left: 4em;
+    display: inline;
+}
+
+.button-container {
+}
+.buttons {
+    margin:auto;
+    max-width:90%;
+}
+
 .page-button {
-    
     display:  inline-block;
-    height: 2%;
-    width:  4%;
-    padding:2em;
+    padding: .5em 1em;
+    margin: 0 .2em;
     background-color: wheat;
     border: gray thin solid;
 }

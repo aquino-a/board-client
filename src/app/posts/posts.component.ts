@@ -38,8 +38,28 @@ export class PostsComponent implements OnInit {
     }
     
     showButton(index:number): boolean {
+        if(index == 0 ||
+            index == this.pages.length-1
+            ) {
+            return false;
+        }
+        
         let minNum = this.currentPage - 2;
         let maxNum = this.currentPage +2;
+        
+        if(this.currentPage == 0 ) {
+            return index < maxNum+2;
+        }
+        if(this.currentPage == 1) {
+            return index < maxNum+1;
+        }
+        if(this.currentPage == this.pages.length-1 ) {
+            return index > minNum-2;
+        }
+        if (this.currentPage == this.pages.length-2) {
+            return index > minNum-1;
+        }
+        
         return (index > minNum && index < maxNum 
             && index != 0); 
     }

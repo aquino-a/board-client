@@ -1,2 +1,14 @@
-<div class='page-button' routerLink='/'> Home</div>
-<div class='page-button' routerLink='/new'> New Post</div>
+<nav>
+    <ul>
+        <li class='page-button' routerLink='/'> Home</li>
+        <li class='page-button' routerLink='/new'>Post</li>
+        <li class='page-button' *ngIf="!authenticationService.authenticated" 
+            (click) = 'login()'>Login</li>
+        <li class='page-button' *ngIf="authenticationService.authenticated">
+            Welcome,{{" "+authenticationService.member.username}}!</li>
+        <li class='page-button' *ngIf="authenticationService.authenticated"
+            (click) = "authenticationService.logOut()">
+            Log Out</li>
+    </ul>
+    
+</nav>    

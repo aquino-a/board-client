@@ -17,14 +17,16 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private authenticationService: AuthenticationService,
         private router: Router
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
 //        this.code = this.getCode();
 //        this.fetchToken(this.code);
         this.token = this.getToken();
         this.authenticationService.setToken(this.token);
-        this.router.navigate(['/home']);
+        console.log("wtf.... router is " + this.router.url);
+        this.router.navigateByUrl('/').catch(reason => console.log(reason));
     }
     
     private getToken(): string{
@@ -61,5 +63,5 @@ export class LoginComponent implements OnInit {
             }
         } 
     }
-
+    
 }

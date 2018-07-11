@@ -1,29 +1,31 @@
 <div class="posts" *ngIf='postsInfo'>
     <h2>Posts</h2>
-    <ul>
-        <li *ngFor="let post of postsInfo.content" 
+    <ul class="posts">
+        <li class="post" *ngFor="let post of postsInfo.content" 
             >
-            <span class="badge">{{post.id}}</span> {{post.member.username}}
-            {{post.text}}
+            <span class="badge">Post ID:{{post.id}}</span> <br/>User: {{post.member.username}} <br/>
+            Text: {{post.text}} <br/>
             <div class="photo" *ngIf='post.images'>
                 <img *ngFor="let image of post.images" src = "{{requestService.domainPath + '/posts/' + post.member.username + '/images/' + image.location}}">
 
             </div>
         </li>
     </ul>
-    <div  class="buttons">
-        <div class="page-button"  
-             (click) = "getPosts(0,size);"
-             >First</div>
-        <ng-container *ngFor="let num of pages; let i = index">
+    <div class ="button-container">
+        <div  class="buttons">
             <div class="page-button"  
-             (click) = "getPosts(i,size);"
-             *ngIf="showButton(i)"
-             >{{i}}</div>
-        </ng-container>
-        <div class="page-button"  
-             (click) = "getPosts(postsInfo.totalPages-1,size);"
-             >Last</div>
-        
+                 (click) = "getPosts(0,size);"
+                 >First</div>
+            <ng-container *ngFor="let num of pages; let i = index">
+                <div class="page-button"  
+                 (click) = "getPosts(i,size);"
+                 *ngIf="showButton(i)"
+                 >{{i+1}}</div>
+            </ng-container>
+            <div class="page-button"  
+                 (click) = "getPosts(postsInfo.totalPages-1,size);"
+                 >Last</div>
+
+        </div>
     </div>
 </div>

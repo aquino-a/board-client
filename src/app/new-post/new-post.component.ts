@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { RequestService } from '../request.service';
+import {AuthenticationService} from '../authentication.service';
+import { Router }          from '@angular/router';
 
 
 @Component({
@@ -13,9 +15,18 @@ export class NewPostComponent implements OnInit {
     files: File[] = [];
 
 
-    constructor(private requestService: RequestService) {}
+    constructor(
+        private requestService: RequestService,
+        private authenticationService: AuthenticationService,
+        private router: Router
+        
+        ) {}
 
     ngOnInit() {
+        if (!this.authenticationService.authenticated) {
+            this.router.navigateByUrl('/');
+        }
+
     }
 
     setFiles(files: FileList) {
@@ -26,7 +37,10 @@ export class NewPostComponent implements OnInit {
     }
     
     onSubmit() {
-        this.requestService.newPost(this.text,this.files);
+        this.requestService
+            .newPost(this.text,
+                 this.authenticationService.getToken(), this.files);
+        this.router.navigateByUrl('/');
     }
 
 }
