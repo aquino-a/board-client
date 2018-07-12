@@ -36,22 +36,31 @@ export class RequestService {
         } else {
             params.headers = new HttpHeaders().set('Authorization','Bearer ' + token);
         }
-        this.http.post(this.domainPath+path, formData, params)
-            .pipe(tap(_ => console.log(`Posting to ${path} with token ${token}`)))
-            .subscribe((data) => {console.log(data)});
+        return this.http.post(this.domainPath+path, formData, params)
+            .pipe(tap(_ => console.log(`Posting to ${path} with token ${token}`)));
     }
     
-    public newPost(text: string, token: string, files?: File[]) {
+    public newPost(text: string, token: string, files?: File[], parentId?: number) {
         let formData = new FormData();
         for(let file of files) {
             formData.append('files', file, file.name);
         }
         formData.set('text',text);
-        
-        this.postRequestToken('/posts/new',token, formData, {});
+        if(parentId) {
+            //TODO real param name
+            formData.set('parentId', String(parentId));
+        }
+        return this.postRequestToken('/posts/new',token, formData,{});
     }
     
-    public getPosts(page: number, size: number): Observable<RootObject> {
+    public getPostsByUser(page: number, size: number, username: string): Observable<RootObject> {
+        return this.getPostsBasic(page,size,"/posts/user/"+username);
+    }
+    public getPosts(page:number, size: number): Observable<RootObject> {
+        return this.getPostsBasic(page,size,"/posts");
+    }
+    
+    private getPostsBasic(page: number, size: number, path: string): Observable<RootObject> {
         const options = {
             params: new HttpParams()
 
@@ -63,7 +72,7 @@ export class RequestService {
 //        params = params.append('size',String(size));
         
         options.params = params;
-        return this.getRequestNoToken<RootObject>("/posts", options);
+        return this.getRequestNoToken<RootObject>(path, options);
         
     }
     

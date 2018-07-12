@@ -9,6 +9,7 @@ import { PostsComponent } from './posts/posts.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
+import { UserPostsComponent } from './user-posts/user-posts.component';
 
 
 
@@ -20,6 +21,7 @@ import { NavComponent } from './nav/nav.component';
         NewPostComponent,
         LoginComponent,
         NavComponent,
+        UserPostsComponent,
     ],
     imports: [
         HttpClientModule,

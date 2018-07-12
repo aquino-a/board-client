@@ -1,22 +1,27 @@
-.post li {
+.post {
     width:100%;
     overflow: hidden;
-    border: #0077b3 dotted thin;
+    margin: .2em;
+   background-color:#E8E8E8; 
 }
 .posts ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color:#E8E8E8;
+    
+}
+.reply {
+    margin-left: 6em;
+    border-left: #206ca7 thin dotted;
 }
 
 .photo img {
     max-height: 6em;
-    margin: .5em 2em;
+    margin: .5em 0 .5em 1em;
     
 }
 .photo {
-    margin-left: 4em;
+    margin-left: 3em;
     display: inline;
 }
 

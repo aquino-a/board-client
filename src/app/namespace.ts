@@ -32,11 +32,12 @@ declare module 'namespace' {
     }
 
     export interface Content {
+        parentId: number;
         id: number;
         member: Member;
         text: string;
         postDate: Date;
-        replies: any[];
+        replies: Content[];
         images: Image[];
     }
 

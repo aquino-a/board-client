@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { RequestService } from '../request.service';
+import {RequestService} from '../request.service';
 import {AuthenticationService} from '../authentication.service';
-import { Router }          from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -11,6 +11,7 @@ import { Router }          from '@angular/router';
 })
 export class NewPostComponent implements OnInit {
 
+    private parentId: number;
     text: string;
     files: File[] = [];
 
@@ -18,15 +19,23 @@ export class NewPostComponent implements OnInit {
     constructor(
         private requestService: RequestService,
         private authenticationService: AuthenticationService,
-        private router: Router
-        
-        ) {}
+        private router: Router,
+        private route: ActivatedRoute
+
+    ) {}
 
     ngOnInit() {
         if (!this.authenticationService.authenticated) {
             this.router.navigateByUrl('/');
         }
+        this.getParentId();
 
+    }
+
+    private getParentId() {
+        if (+this.route.snapshot.paramMap.has('id')) {
+            this.parentId = +this.route.snapshot.paramMap.get('id');
+        }
     }
 
     setFiles(files: FileList) {
@@ -35,11 +44,24 @@ export class NewPostComponent implements OnInit {
             this.files.push(files.item(i));
         }
     }
-    
+
     onSubmit() {
-        this.requestService
-            .newPost(this.text,
-                 this.authenticationService.getToken(), this.files);
+        if (this.parentId) {
+            this.requestService
+                .newPost(this.text,
+                    this.authenticationService.getToken(), this.files, this.parentId)
+                .subscribe(data => this.goHome());
+        } else {
+            this.requestService
+                .newPost(this.text,
+                    this.authenticationService.getToken(), this.files)
+                    .subscribe(data => this.goHome());
+        }
+
+        
+    }
+    
+    private goHome() {
         this.router.navigateByUrl('/');
     }
 

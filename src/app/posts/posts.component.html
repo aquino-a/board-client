@@ -1,15 +1,31 @@
 <div class="posts" *ngIf='postsInfo'>
     <h2>Posts</h2>
     <ul class="posts">
-        <li class="post" *ngFor="let post of postsInfo.content" 
-            >
-            <span class="badge">Post ID:{{post.id}}</span> <br/>User: {{post.member.username}} <br/>
-            Text: {{post.text}} <br/>
-            <div class="photo" *ngIf='post.images'>
-                <img *ngFor="let image of post.images" src = "{{requestService.domainPath + '/posts/' + post.member.username + '/images/' + image.location}}">
+        <ng-container *ngFor="let post of postsInfo.content">
+            <div class ="post">  
+                <ng-container  *ngIf="post.parentId == -1">
+                    <li   
+                        >
+                        <span class="badge">Post ID:<a routerLink="/new/{{post.id}}">{{post.id}}</a> </span>
+                        <br/>User:<a routerLink="/posts/{{post.member.username}}"> {{post.member.username}}</a><br/> Post Date: {{post.postDate}} <br/>
+                        Text: {{post.text}} <br/>
+                        <div class="photo" *ngIf='post.images'>
+                            <img *ngFor="let image of post.images" src = "{{requestService.domainPath + '/posts/' + post.member.username + '/images/' + image.location}}">
 
+                        </div>
+                    </li>
+                    <li class="reply" *ngFor="let reply of post.replies" >
+                        <span class="badge">Post ID:{{reply.id}}</span>
+                        <br/>User: <a routerLink="/posts/{{reply.member.username}}">{{reply.member.username}}</a> <br/>
+                        Text: {{reply.text}} <br/>Post Date: {{reply.postDate}} <br/>
+                        <div class="photo" *ngIf='reply.images'>
+                            <img *ngFor="let image of reply.images" src = "{{requestService.domainPath + '/posts/' + reply.member.username + '/images/' + image.location}}">
+                        </div>
+                    </li>
+
+                </ng-container>
             </div>
-        </li>
+        </ng-container>
     </ul>
     <div class ="button-container">
         <div  class="buttons">
