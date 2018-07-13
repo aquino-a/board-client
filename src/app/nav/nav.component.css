@@ -1,28 +1,15 @@
-/*delete this*/
-.page-button {
-    
-/*    display:  inline-block;
-    height: 2%;
-    width:  2%;
-    padding:.5em;
-    background-color: lightslategray;
-    border: gray thin solid;*/
-}
-
-nav ul {
+/*nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     background-color: #333;
     width:100%;
-}
-
-nav li  {
+}*/
+nav li {
+    padding:2em;
     color: white;
-    display: inline-block;
-    padding: 2em;
 }
 
 nav li:hover {
-    background-color: #111;
+    background-color: #123;
 }

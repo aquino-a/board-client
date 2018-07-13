@@ -1,12 +1,18 @@
-<nav>
-    <ul>
-        <li class='page-button' routerLink='/'> Home</li>
-        <li class='page-button' routerLink='/new'>Post</li>
-        <li class='page-button' *ngIf="!authenticationService.authenticated" 
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <a class="navbar-brand" routerLink='/'>
+            <img  src="/assets/images/AA_white.png" width="70" height="70" />
+        </a>
+    
+    <ul class="navbar-nav">
+        
+        
+        <li routerLink='/'> Home</li>
+        <li  routerLink='/new'>Post</li>
+        <li *ngIf="!authenticationService.authenticated" 
             (click) = 'login()'>Login</li>
-        <li class='page-button' *ngIf="authenticationService.authenticated">
+        <li  *ngIf="authenticationService.authenticated">
             Welcome,{{" "+authenticationService.member.username}}!</li>
-        <li class='page-button' *ngIf="authenticationService.authenticated"
+        <li *ngIf="authenticationService.authenticated"
             (click) = "authenticationService.logOut()">
             Log Out</li>
     </ul>

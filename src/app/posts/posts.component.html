@@ -6,42 +6,73 @@
                 <ng-container  *ngIf="post.parentId == -1">
                     <li   
                         >
-                        <span class="badge">Post ID:<a routerLink="/new/{{post.id}}">{{post.id}}</a> </span>
-                        <br/>User:<a routerLink="/posts/{{post.member.username}}"> {{post.member.username}}</a><br/> Post Date: {{post.postDate}} <br/>
-                        Text: {{post.text}} <br/>
+                        <span class="badge"><a routerLink="/posts/{{post.member.username}}" title="Show threads"> <strong>{{post.member.username}}</strong></a>
+                            &nbsp;&nbsp;{{post.postDate | date:'medium'}}
+                            &nbsp;&nbsp;&nbsp;ID:&nbsp;<a routerLink="/new/{{post.id}}" title="Reply">{{post.id}}</a>
+
+                            &nbsp;&nbsp;
+                            <button class="delete" title="delete post"
+                                    *ngIf="authenticationService.member 
+                                && (post.member.username == authenticationService.member.username
+                                || isAdmin())"
+                                    (click)="delete(post.id)">x</button></span>
+                        <br/>
                         <div class="photo" *ngIf='post.images'>
                             <img *ngFor="let image of post.images" src = "{{requestService.domainPath + '/posts/' + post.member.username + '/images/' + image.location}}">
-
                         </div>
+                        <br/>
+                        <br/>
+                        <!--                        
+                                                <span class="badge">User:</span><a routerLink="/posts/{{post.member.username}}"> {{post.member.username}}</a><br/> <span class="badge">Post Date:</span> {{post.postDate}} <br/>
+                                                <span class="badge">Text:</span> -->
+                        <pre class="text">{{post.text}}</pre> <br/>
+
                     </li>
                     <li class="reply" *ngFor="let reply of post.replies" >
-                        <span class="badge">Post ID:{{reply.id}}</span>
-                        <br/>User: <a routerLink="/posts/{{reply.member.username}}">{{reply.member.username}}</a> <br/>
-                        Text: {{reply.text}} <br/>Post Date: {{reply.postDate}} <br/>
+                        <span class="badge">
+                            <a routerLink="/posts/{{reply.member.username}}" title="Show threads"><strong>{{reply.member.username}}</strong></a>
+                            &nbsp;&nbsp;{{reply.postDate | date:'medium'}}
+                            &nbsp;&nbsp;&nbsp;ID:&nbsp;{{reply.id}}
+
+                            &nbsp;&nbsp;
+                            <button *ngIf="authenticationService.member 
+                                && (reply.member.username == authenticationService.member.username
+                                || isAdmin())" class="delete" title="delete post"
+                                    (click)="delete(post.id)">x</button></span>
+                        <br/>
                         <div class="photo" *ngIf='reply.images'>
                             <img *ngFor="let image of reply.images" src = "{{requestService.domainPath + '/posts/' + reply.member.username + '/images/' + image.location}}">
                         </div>
+                        <br/>
+                        <br/>
+                        <!--                        <br/>
+                                                Post ID:&nbsp;{{reply.id}}
+                                                <br/>
+                                                <span class="badge">User: </span> <br/>
+                                                <span class="badge">Post Date:</span>  <br/>
+                                                <span class="badge">Text:</span>-->
+
+                        <pre class="text">{{reply.text}}</pre> <br/>
+
                     </li>
 
                 </ng-container>
             </div>
         </ng-container>
     </ul>
-    <div class ="button-container">
-        <div  class="buttons">
+    <div  class="buttons">
+        <div class="page-button"  
+             (click) = "getPosts(0,size);"
+             >First</div>
+        <ng-container *ngFor="let num of pages; let i = index">
             <div class="page-button"  
-                 (click) = "getPosts(0,size);"
-                 >First</div>
-            <ng-container *ngFor="let num of pages; let i = index">
-                <div class="page-button"  
-                 (click) = "getPosts(i,size);"
-                 *ngIf="showButton(i)"
-                 >{{i+1}}</div>
-            </ng-container>
-            <div class="page-button"  
-                 (click) = "getPosts(postsInfo.totalPages-1,size);"
-                 >Last</div>
+             (click) = "getPosts(i,size);"
+             *ngIf="showButton(i)"
+             >{{i+1}}</div>
+        </ng-container>
+        <div class="page-button"  
+             (click) = "getPosts(postsInfo.totalPages-1,size);"
+             >Last</div>
 
-        </div>
     </div>
 </div>

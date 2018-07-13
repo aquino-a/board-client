@@ -3,6 +3,7 @@ import {RequestService} from '../request.service';
 import {RootObject, Content} from 'namespace';
 import {catchError, map, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import {AuthenticationService} from '../authentication.service';
 
 @Component({
     selector: 'app-posts',
@@ -17,10 +18,11 @@ export class PostsComponent implements OnInit {
     pages: Array<number>;
     size: number;
     currentPage: number;
-    
+
     constructor(
         private requestService: RequestService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        public authenticationService: AuthenticationService
     ) {}
 
     ngOnInit() {
@@ -36,7 +38,7 @@ export class PostsComponent implements OnInit {
         }
         this.route.params.subscribe(params => {
             this.username = params['username'];
-            this.getPosts(0,5);
+            this.getPosts(0, 5);
         });
     }
 
@@ -86,6 +88,19 @@ export class PostsComponent implements OnInit {
 
         return (index > minNum && index < maxNum
             && index != 0);
+    }
+
+    isAdmin(): boolean {
+        return this.authenticationService.member.authorities
+            .filter(role => role.role === 'ADMIN').length == 1;
+    }
+
+    delete(id: number) {
+        this.requestService
+            .deletePost(this.authenticationService.getToken(),
+                id)
+            .pipe()
+            .subscribe(_ => {this.getPosts(0,5)});;
     }
 
 

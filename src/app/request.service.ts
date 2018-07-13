@@ -40,6 +40,16 @@ export class RequestService {
             .pipe(tap(_ => console.log(`Posting to ${path} with token ${token}`)));
     }
     
+    private delete(path: string, token: string, params: {headers?: HttpHeaders, params?: HttpParams}) {
+        if(params.headers) {
+            params.headers = params.headers.set('Authorization','Bearer ' + token);
+        } else {
+            params.headers = new HttpHeaders().set('Authorization','Bearer ' + token);
+        }
+        return this.http.delete(this.domainPath+path, params)
+            .pipe(tap(_ => console.log(`Deleting at ${path} with token ${token}`)));
+    }
+    
     public newPost(text: string, token: string, files?: File[], parentId?: number) {
         let formData = new FormData();
         for(let file of files) {
@@ -78,6 +88,10 @@ export class RequestService {
     
     public getMember(token: string): Observable<Member> {
         return this.getRequestToken<Member>('/posts/me', token,{});
+    }
+    
+    public deletePost(token: string, id: number) {
+        return this.delete('/posts/'+ String(id), token, {});
     }
     
     public validToken(token: string): Observable<Response> {

@@ -1,14 +1,21 @@
+.posts {
+    /*background-image: url('/assets/images/background-stucco1.jpg');*/
+}
 .post {
     width:100%;
     overflow: hidden;
     margin: .2em;
-   background-color:#E8E8E8; 
+    background-color: rgba(232,232, 232, .8);
+/*    E8E8E8*/
 }
 .posts ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    
+}
+
+.text {
+    margin-left: 6em;
 }
 .reply {
     margin-left: 6em;
@@ -16,31 +23,33 @@
 }
 
 .photo img {
-    max-height: 6em;
-    margin: .5em 0 .5em 1em;
-    
+    max-height: 16em;
+    padding: .5em 0 .5em 1em;
+    margin: 0 auto;
+
 }
 .photo {
-    margin-left: 3em;
+    margin-left: 0;
     display: inline;
 }
 
 .button-container {
 }
 .buttons {
-    margin:auto;
-    max-width:90%;
+    width:300px;
+    margin: 0 auto;
 }
 
 .page-button {
     display:  inline-block;
     padding: .5em 1em;
     margin: 0 .2em;
-    background-color: wheat;
+    background-color: #7f7f7f;
     border: gray thin solid;
+    color: #E8E8E8;
 }
 
 .page-button:hover {
-     background-color: gray;
-     color:white;
+    background-color: #123;
+    color:white;
 }
