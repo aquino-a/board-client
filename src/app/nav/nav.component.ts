@@ -22,8 +22,8 @@ export class NavComponent implements OnInit {
     }
     
     logOut() {
-        this.requestService.logout(this.authenticationService.getToken())
-            .subscribe(_ => console.log("Stuff"));
+        this.requestService.logout(this.authenticationService.getToken());
+            
         this.authenticationService.logOut();
     }
 
