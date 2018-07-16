@@ -13,7 +13,7 @@
         <li  *ngIf="authenticationService.authenticated">
             Welcome,{{" "+authenticationService.member.username}}!</li>
         <li *ngIf="authenticationService.authenticated"
-            (click) = "authenticationService.logOut()">
+            (click) = "logOut()">
             Log Out</li>
     </ul>
     

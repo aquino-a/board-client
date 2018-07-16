@@ -90,10 +90,10 @@ export class PostsComponent implements OnInit {
             && index != 0);
     }
 
-    isAdmin(): boolean {
-        return this.authenticationService.member.authorities
-            .filter(role => role.role === 'ADMIN').length == 1;
-    }
+//    isAdmin(): boolean {
+//        return this.authenticationService.member.authorities
+//            .filter(role => role.role === 'ADMIN').length == 1;
+//    }
 
     delete(id: number) {
         this.requestService

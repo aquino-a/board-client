@@ -14,7 +14,7 @@
                             <button class="delete" title="delete post"
                                     *ngIf="authenticationService.member 
                                 && (post.member.username == authenticationService.member.username
-                                || isAdmin())"
+                                || authenticationService.admin)"
                                     (click)="delete(post.id)">x</button></span>
                         <br/>
                         <div class="photo" *ngIf='post.images'>
@@ -37,7 +37,7 @@
                             &nbsp;&nbsp;
                             <button *ngIf="authenticationService.member 
                                 && (reply.member.username == authenticationService.member.username
-                                || isAdmin())" class="delete" title="delete post"
+                                || authenticationService.admin)" class="delete" title="delete post"
                                     (click)="delete(post.id)">x</button></span>
                         <br/>
                         <div class="photo" *ngIf='reply.images'>

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../authentication.service';
+import {RequestService} from '../request.service';
 
 @Component({
     selector: 'app-nav',
@@ -8,13 +9,22 @@ import {AuthenticationService} from '../authentication.service';
 })
 export class NavComponent implements OnInit {
 
-    constructor(public authenticationService: AuthenticationService) {}
+    constructor(
+        public authenticationService: AuthenticationService,
+        private requestService: RequestService
+        ) {}
 
     ngOnInit() {
     }
 
     login() {
         this.authenticationService.authorize();
+    }
+    
+    logOut() {
+        this.requestService.logout(this.authenticationService.getToken())
+            .subscribe(_ => console.log("Stuff"));
+        this.authenticationService.logOut();
     }
 
 }

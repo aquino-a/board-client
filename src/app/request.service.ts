@@ -97,4 +97,8 @@ export class RequestService {
     public validToken(token: string): Observable<Response> {
         return this.getRequestToken<Response>('/posts/me', token, {});
     }
+    
+    public logout(token:string) {
+        return this.postRequestToken("/posts/logout",token, null, {});
+    }
 }

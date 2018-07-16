@@ -21,6 +21,7 @@ export class AuthenticationService {
     authenticated: boolean = false;
     member:Member;
     private token = '';
+    admin: boolean = false;
     
 
     
@@ -75,6 +76,7 @@ export class AuthenticationService {
                 if(member && member.username) {
                     this.authenticated = true;
                     this.member = member;
+                    this.admin = this.checkAdmin();
                 } else {
                     this.authenticated = false;
                     this.token = '';
@@ -89,6 +91,16 @@ export class AuthenticationService {
     logOut() {
         this.token = '';
         this.authenticated = false;
+        this.admin = false;
+        this.member = null;
+    }
+    
+    private checkAdmin() {
+        if(!this.member) {
+            return false;
+        }
+        return this.member.authorities
+            .filter(role => role.role === 'ADMIN').length == 1;
     }
     
 //    isAuthenticated() : boolean {
