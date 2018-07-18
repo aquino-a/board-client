@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RequestService} from '../request.service';
 import {RootObject, Content} from 'namespace';
 import {catchError, map, tap} from 'rxjs/operators';
+import {interval, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {AuthenticationService} from '../authentication.service';
 
@@ -18,6 +19,7 @@ export class PostsComponent implements OnInit {
     pages: Array<number>;
     size: number;
     currentPage: number;
+    sub: Subscription;
 
     constructor(
         private requestService: RequestService,
@@ -28,7 +30,21 @@ export class PostsComponent implements OnInit {
     ngOnInit() {
         this.setUsername();
         this.getPosts(0, 5);
+        this.sub = interval(1000 * 10 * 2,)
+            .subscribe(() => {
+                this.refresh();
+            });
     }
+    
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
+    
+    refresh(): void {
+        this.getPosts(this.currentPage,5);
+    }
+    
+    
 
     private setUsername(): void {
         if (this.route.snapshot.paramMap.has('username')) {
