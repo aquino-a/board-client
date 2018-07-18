@@ -1,7 +1,17 @@
 form {
     padding:2em;
     margin: 0 auto;
-    width:40%;
+    width:80%;
     background-color: rgba(232,232, 232, .8);
-    
+
+}
+textarea {
+    margin:0px 0px;
+    padding:5px;
+    min-height:16px;
+    line-height:16px;
+    width:96%;
+    display:block;
+    margin:0px auto; 
+    resize:none;
 }

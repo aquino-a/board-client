@@ -3,14 +3,15 @@ import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {RootObject, Content, Member} from 'namespace';
+import { environment } from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class RequestService {
 
-    domainPath = 'http://192.168.1.62:8084';
-    path = "http://localhost:4200";
+    domainPath = environment.backend;
+    path = environment.domain;
 
     constructor(private http: HttpClient) {}
 

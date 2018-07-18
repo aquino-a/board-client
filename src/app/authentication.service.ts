@@ -6,11 +6,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { Member } from 'namespace';
 import { RequestService } from './request.service';
+import { environment } from '../environments/environment';
 
-const PATH = 'http://192.168.1.62:8084';
+const PATH = environment.backend;
 const AUTHPATH = PATH + '/oauth/authorize';
 const TOKENPATH = PATH + '/oauth/token';
-const AUTHORIZE = AUTHPATH +'?redirect_uri=http://localhost:4200/login&response_type=token&client_id=pizza';
+const AUTHORIZE = AUTHPATH + '?redirect_uri=' + environment.domain 
+    +'login&response_type=token&client_id=pizza';
 
 
 @Injectable({
