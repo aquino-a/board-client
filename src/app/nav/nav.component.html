@@ -1,11 +1,11 @@
 <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
     <a class="navbar-brand" routerLink='/'>
-            <img  src="/assets/images/AA_white.png" width="70" height="70" />
-        </a>
-    
+        <img  src="/assets/images/AA_white.png" width="70" height="70" />
+    </a>
+
     <ul class="navbar-nav">
-        
-        
+
+
         <li routerLink='/'> Home</li>
         <li  routerLink='/new'>Post</li>
         <li *ngIf="!authenticationService.authenticated" 
@@ -16,5 +16,9 @@
             (click) = "logOut()">
             Log Out</li>
     </ul>
-    
+    <form class="form-inline ml-auto">
+        <input #search (keyup)="onKey(search.value)" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button routerLink='/search/{{query}}' class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
 </nav>    

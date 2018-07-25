@@ -14,6 +14,7 @@ import {AuthenticationService} from '../authentication.service';
 export class PostsComponent implements OnInit {
 
     private username: string;
+    private search: string;
 
     postsInfo: RootObject;
     pages: Array<number>;
@@ -49,18 +50,27 @@ export class PostsComponent implements OnInit {
     private setUsername(): void {
         if (this.route.snapshot.paramMap.has('username')) {
             this.username = this.route.snapshot.paramMap.get('username');
-        } else {
+        } else if (this.route.snapshot.paramMap.has('search')) {
             this.username = null;
+            this.search = this.route.snapshot.paramMap.get('search');
         }
         this.route.params.subscribe(params => {
             this.username = params['username'];
             this.getPosts(0, 5);
+        });
+        this.route.params.subscribe(params => {
+            this.search = params['search'];
+            this.getPosts(0,5);
         });
     }
 
     getPosts(page: number, size: number) {
         if (this.username) {
             this.requestService.getPostsByUser(page, size, this.username)
+                .pipe()
+                .subscribe(info => {this.setupPage(info)});
+        } else if(this.search) {
+            this.requestService.getPostsBySearch(page, size, this.search)
                 .pipe()
                 .subscribe(info => {this.setupPage(info)});
         } else {

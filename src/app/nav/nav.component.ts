@@ -8,7 +8,9 @@ import {RequestService} from '../request.service';
     styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-
+    
+    public query:string = '';
+    
     constructor(
         public authenticationService: AuthenticationService,
         private requestService: RequestService
@@ -26,5 +28,10 @@ export class NavComponent implements OnInit {
             
         this.authenticationService.logOut();
     }
-
+    
+    onKey(query: string) {
+        console.log(query);
+        this.query = query;
+    }
+    
 }

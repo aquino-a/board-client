@@ -86,6 +86,10 @@ export class RequestService {
         return this.getRequestNoToken<RootObject>(path, options);
 
     }
+    
+    public getPostsBySearch(page: number, size: number, search: string) {
+        return this.getPostsBasic(page, size, "/posts/search?search=" + search);
+    }
 
     public getMember(token: string): Observable<Member> {
         return this.getRequestToken<Member>('/posts/me', token, {});

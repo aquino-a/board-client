@@ -13,3 +13,15 @@ nav li {
 nav li:hover {
     background-color: #123;
 }
+.btn:hover {
+    background-color:  #123;
+}
+
+.btn {
+    color:white;
+    border-color: white;
+}
+
+.form-control:focus {
+  box-shadow: inset 2px 2px 2px rgba(0, 0,0, 0.075), 0 0 8px rgba(0, 0, 0, 0.6);
+}
