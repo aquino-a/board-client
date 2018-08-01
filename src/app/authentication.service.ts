@@ -12,7 +12,7 @@ const PATH = environment.backend;
 const AUTHPATH = PATH + '/oauth/authorize';
 const TOKENPATH = PATH + '/oauth/token';
 const AUTHORIZE = AUTHPATH + '?redirect_uri=' + environment.domain 
-    +'login&response_type=token&client_id=pizza';
+    +'/login&response_type=token&client_id=pizza';
 
 
 @Injectable({

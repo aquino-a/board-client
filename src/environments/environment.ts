@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  backend: "http://192.168.1.62:8084",
-  domain: "http://192.168.1.62:8083"
+  backend: "http://39.121.152.61:8084/image",
+  domain: "http://localhost:4200"
 };
 
 /*
